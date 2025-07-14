@@ -34,7 +34,6 @@ console.log(BSTExample.find(8));
 console.log(BSTExample.find(324));
 console.log(BSTExample.find(3));
 
-
 // test function levelOrderForEach()
 try {
     BSTExample.levelOrderForEach(BSTExample.breadthCallbackRecur);
@@ -113,4 +112,26 @@ try {
 } catch (error) {
     console.error('Caught an error:', error.message);
 }
-// Caught an error: Callback function is required.
+// Caught an error: Callback function is required
+
+// test function height() with non-existed value
+console.log(BSTExample.height(66));     // null
+// test function height()
+console.log(BSTExample.height(4));      // 2
+
+// test function depth() with non-existed value
+console.log(BSTExample.depth(88));      // null
+// test function height()
+console.log(BSTExample.depth(6345));    // 3
+
+// test function isBalanced()
+BSTExample.prettyPrint(BSTExample.root);
+console.log(BSTExample.isBalanced());      // true
+BSTExample.insert(7239);
+BSTExample.prettyPrint(BSTExample.root);
+console.log(BSTExample.isBalanced());      // false
+
+// test function rebalance()
+BSTExample.rebalance();
+BSTExample.prettyPrint(BSTExample.root);
+console.log(BSTExample.isBalanced());      // true

@@ -293,6 +293,95 @@ class Tree {
         result.push(value);
     }
     
+    // return the height of the node containing the given value
+    // height is defined as the number of edges in the longest path from that node to a leaf node
+    height(value) {
+        const currentNode = this.find(value);
+
+        if(currentNode === null) {
+            console.log("Cannot get the height of a non-existed value in BST");
+            return null;
+        }
+
+        return this.getHeight(currentNode);
+    }
+
+    // recursive funtion to return the height of the node
+    getHeight(root) {
+        if(root === null) {
+            return -1;
+        }
+        else {
+            return (Math.max(this.getHeight(root.rightChild), this.getHeight(root.leftChild)) + 1);
+        }
+    }
+
+    // iterative funtion return the depth of the node containing the given value
+    // depth is defined as the number of edges in the path from that node to the root node
+    depth(value) {
+        if(this.root === null) {
+            console.log("Cannot get the depth of a non-existed value in BST");
+            return null;
+        }
+
+        let current = this.root;
+        let depth = -1;
+
+        while(current != null) {
+            if(value < current.value) {
+                current = current.leftChild;
+                depth += 1;
+            }
+            else if(value > current.value) {
+                current = current.rightChild;
+                depth += 1;
+            }
+            else {
+                return (depth + 1);
+            }
+        }
+
+        console.log("Cannot find a non-existed value in BST");
+        return null;
+    }
+
+    // check if the BST is balanced. BST is considered balanced if,
+    //  1. for every node in the tree, the two subtrees is also balanced
+    //  2. for every node in the tree, the height difference of two subtrees is between -1 and 1
+    isBalanced() {
+        return this.isBalancedRecur(this.root);
+    }
+
+    // recursive function to check if the BST is balanced
+    isBalancedRecur(root) {
+        // If tree is empty then return true
+        if(root === null) {
+            return true;
+        }
+
+        const leftHeight = this.getHeight(root.leftChild);
+        const rightHeight = this.getHeight(root.rightChild);
+        // the height difference of two subtrees must be between -1 and 1
+        if(Math.abs(leftHeight - rightHeight) > 1) {
+            return false;
+        }
+        // the two subtrees must be balanced 
+        return (this.isBalancedRecur(root.leftChild) && this.isBalancedRecur(root.rightChild));
+    }
+
+    // rebalance an unbalanced tree
+    rebalance() {
+        const rebalanceCallback = (result, value) => {
+            result.push(value);
+        }
+
+        let traversalResult = [];
+        // the inorder travrsel result of a BST is a sorted array
+        this.inOrderForEachRecur(rebalanceCallback, this.root, traversalResult);
+        
+        this.root = this.buildTree(traversalResult);
+    }
+
     // visualize the binary search tree with root of the tree as the value for the node parameter
     prettyPrint(node, prefix = '', isLeft = true) {
         if (node === null) {
