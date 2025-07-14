@@ -1,4 +1,4 @@
-export { Tree }
+export { Tree, createRandomArray, getRandomIntGreaterThan }
 
 class Tree {
     constructor(array = []){
@@ -381,7 +381,7 @@ class Tree {
         
         this.root = this.buildTree(traversalResult);
     }
-    
+
     // visualize the binary search tree with root of the tree as the value for the node parameter
     prettyPrint(node, prefix = '', isLeft = true) {
         if (node === null) {
@@ -403,4 +403,35 @@ class Node {
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }
+}
+
+// create array with 15 distinct elements, and all elements is between 0 to 99
+function createRandomArray() {
+    let newArray = []
+
+    while(newArray.length < 15) {
+        for(let i = newArray.length + 1 ; i <= 15 ; i++) {
+            newArray.push(getRandomIntLessThan(100));
+        }
+
+        newArray = [...new Set(newArray)]
+    }
+    return newArray;
+}
+
+// get an interger between 0 to max-1
+function getRandomIntLessThan(max) {
+  return Math.floor(Math.random() * max);
+}
+
+// get an interger between specific+1 to max
+function getRandomIntGreaterThan(specific, max) {
+  // Ensure maxValue is greater than specificValue
+  if (max <= specific) {
+    throw new Error("maxValue must be greater than specificValue.");
+  }
+  // Calculate the minimum possible random integer
+  const minRandom = specific + 1;
+  // Generate a random integer within the desired range
+  return Math.floor(Math.random() * (max - minRandom + 1)) + minRandom;
 }
