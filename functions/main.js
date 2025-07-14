@@ -66,3 +66,51 @@ try {
     console.error('Caught an error:', error.message);
 }
 // Caught an error: Callback function is required.
+
+// test function inOrderForEach()
+try {
+    BSTExample.inOrderForEach(BSTExample.depthCallback);
+} catch (error) {
+    console.error('Caught an error:', error.message);
+}
+// 3, 4, 5, 7, 8, 9, 250, 324, 6345
+
+// test function inOrderForEach() without callback
+try {
+    BSTExample.inOrderForEach();
+} catch (error) {
+    console.error('Caught an error:', error.message);
+}
+// Caught an error: Callback function is required.
+
+// test function preOrderForEach()
+try {
+    BSTExample.preOrderForEach(BSTExample.depthCallback);
+} catch (error) {
+    console.error('Caught an error:', error.message);
+}
+// 8, 4, 250, 3, 5, 9, 324, 7, 6345
+
+// test function preOrderForEach() without callback
+try {
+    BSTExample.preOrderForEach();
+} catch (error) {
+    console.error('Caught an error:', error.message);
+}
+// Caught an error: Callback function is required.
+
+// test function postOrderForEach()
+try {
+    BSTExample.postOrderForEach(BSTExample.depthCallback);
+} catch (error) {
+    console.error('Caught an error:', error.message);
+}
+// 8, 4, 250, 3, 5, 9, 324, 7, 6345
+
+// test function postOrderForEach() without callback
+try {
+    BSTExample.postOrderForEach();
+} catch (error) {
+    console.error('Caught an error:', error.message);
+}
+// Caught an error: Callback function is required.
