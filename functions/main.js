@@ -1,138 +1,44 @@
 #!/usr/bin/node
 
-import { Tree } from "./classes.js"
+import { Tree, createRandomArray, getRandomIntGreaterThan } from "./classes.js"
 
-let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-
-let BSTExample = new Tree(testArray);
-
-// test function prettyPrint()
+// Step1: Create a binary search tree from an array of random numbers < 100
+let BSTExample = new Tree(createRandomArray());
+// a full binary search tree with height = 3
 BSTExample.prettyPrint(BSTExample.root);
 
-// test function insert() with duplicate value
-BSTExample.insert(5);
-// test function insert()
-BSTExample.insert(250);
-BSTExample.prettyPrint(BSTExample.root);
-
-// test function delete() with non-existed value
-BSTExample.deleteItem(100);
-// test function delete() with value having 0 child
-BSTExample.deleteItem(23);
-BSTExample.prettyPrint(BSTExample.root);
-// test function delete() with value having 1 child
-BSTExample.deleteItem(1);
-BSTExample.prettyPrint(BSTExample.root);
-// test function delete() with value having 2 child
-BSTExample.deleteItem(67);
-BSTExample.prettyPrint(BSTExample.root);
-
-// test function find() with non-existed value
-console.log(BSTExample.find(77));
-// test function find()
-console.log(BSTExample.find(8));
-console.log(BSTExample.find(324));
-console.log(BSTExample.find(3));
-
-
-// test function levelOrderForEach()
-try {
-    BSTExample.levelOrderForEach(BSTExample.breadthCallbackRecur);
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// 8, 4, 250, 3, 5, 9, 324, 7, 6345
-
-// test function levelOrderForEach() without callback
-try {
-    BSTExample.levelOrderForEach();
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// Caught an error: Callback function is required.
-
-// test function levelOrderForEachIter()
-try {
-    BSTExample.levelOrderForEachIter(BSTExample.breadthCallbackIter);
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// 8, 4, 250, 3, 5, 9, 324, 7, 6345
-
-// test function levelOrderForEachIter() without callback
-try {
-    BSTExample.levelOrderForEachIter();
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// Caught an error: Callback function is required.
-
-// test function inOrderForEach()
-try {
-    BSTExample.inOrderForEach(BSTExample.depthCallback);
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// 3, 4, 5, 7, 8, 9, 250, 324, 6345
-
-// test function inOrderForEach() without callback
-try {
-    BSTExample.inOrderForEach();
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// Caught an error: Callback function is required.
-
-// test function preOrderForEach()
-try {
-    BSTExample.preOrderForEach(BSTExample.depthCallback);
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// 8, 4, 250, 3, 5, 9, 324, 7, 6345
-
-// test function preOrderForEach() without callback
-try {
-    BSTExample.preOrderForEach();
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// Caught an error: Callback function is required.
-
-// test function postOrderForEach()
-try {
-    BSTExample.postOrderForEach(BSTExample.depthCallback);
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// 8, 4, 250, 3, 5, 9, 324, 7, 6345
-
-// test function postOrderForEach() without callback
-try {
-    BSTExample.postOrderForEach();
-} catch (error) {
-    console.error('Caught an error:', error.message);
-}
-// Caught an error: Callback function is required.
-
-// test function height() with non-existed value
-console.log(BSTExample.height(66));     // null
-// test function height()
-console.log(BSTExample.height(4));      // 2
-
-// test function depth() with non-existed value
-console.log(BSTExample.depth(88));      // null
-// test function height()
-console.log(BSTExample.depth(6345));    // 3
-
-// test function isBalanced()
-BSTExample.prettyPrint(BSTExample.root);
+// Step2: Confirm that the tree is balanced by calling isBalanced()
 console.log(BSTExample.isBalanced());      // true
-BSTExample.insert(7239);
+
+// Step3: Print out all elements in level, pre, post, and in order
+BSTExample.levelOrderForEach(BSTExample.breadthCallbackRecur);
+BSTExample.inOrderForEach(BSTExample.depthCallback);
+BSTExample.preOrderForEach(BSTExample.depthCallback);
+BSTExample.postOrderForEach(BSTExample.depthCallback);
+
+// Step4: Unbalance the tree by adding several numbers > 100
+let random1 = getRandomIntGreaterThan(100, 1000);
+let random2 = getRandomIntGreaterThan(100, 1000);
+while(random2 === random1) {
+    random2 = getRandomIntGreaterThan(100, 1000);
+}
+// insert two distinct random intergers > 100 to make a unbalanced tree
+BSTExample.insert(random1);
+BSTExample.insert(random2);
 BSTExample.prettyPrint(BSTExample.root);
+
+// Step5: Confirm that the tree is unbalanced by calling isBalanced()
 console.log(BSTExample.isBalanced());      // false
 
-// test function rebalance()
+// Step6: Balance the tree by calling rebalance()
 BSTExample.rebalance();
 BSTExample.prettyPrint(BSTExample.root);
+
+// Step7: Confirm that the tree is balanced by calling isBalanced()
 console.log(BSTExample.isBalanced());      // true
+
+// Step8: Print out all elements in level, pre, post, and in order
+BSTExample.levelOrderForEach(BSTExample.breadthCallbackRecur);
+BSTExample.inOrderForEach(BSTExample.depthCallback);
+BSTExample.preOrderForEach(BSTExample.depthCallback);
+BSTExample.postOrderForEach(BSTExample.depthCallback);
