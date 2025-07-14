@@ -64,7 +64,7 @@ class Tree {
         this.root = this.deleteItemFromBSTRecur(this.root, value);
     }
 
-    // Recursive function to delete the value from BST
+    // recursive function to delete the value from BST
     deleteItemFromBSTRecur(root, value) {
         if(root === null){
             console.log("Cannot delete a non-existed value from BST");
@@ -116,7 +116,7 @@ class Tree {
         return current;
     }
 
-    // Iterative function to return the node with the given value
+    // iterative function to return the node with the given value
     find(value) {
         if(this.root === null) {
             console.log("Cannot find a non-existed value in BST");
@@ -140,7 +140,7 @@ class Tree {
         return null;
     }
 
-    // Traverse the BST in breadth-first level order and call the callback on each node as it traverse
+    // traverse the BST in breadth-first level order and call the callback on each node as it traverse
     levelOrderForEach(callback) {
         // Check if the callback is provided and is a function
         if (typeof callback !== 'function') {
@@ -155,10 +155,10 @@ class Tree {
 
         // the final form of traversalResult will be an array with many sub-array, needed to be flattened
         const flattenedResult = traversalResult.flat();
-        console.log(flattenedResult.join(', '));
+        console.log('Level order: ' + flattenedResult.join(', '));
     }
 
-    // Recursive function to traverse the BST in breadth-first level order
+    // recursive function to traverse the BST in breadth-first level order
     levelOrderForEachRecur(callback, root, currentLevel, result) {
         if(root === null){
             return null;
@@ -176,12 +176,12 @@ class Tree {
         this.levelOrderForEachRecur(callback, root.rightChild, currentLevel + 1, result);
     }
 
-    // Define a callback function to accumulate the node value with level order
-    accumValueCallbackRecur(result, level, value) {
+    // define a callback function to accumulate the node value with breadth-first level order
+    breadthCallbackRecur(result, level, value) {
         result[level].push(value);
     }
 
-    // Iterative function to traverse the BST in breadth-first level order with quene
+    // iterative function to traverse the BST in breadth-first level order with quene
     levelOrderForEachIter(callback) {
         // Check if the callback is provided and is a function
         if (typeof callback !== 'function') {
@@ -208,11 +208,88 @@ class Tree {
             }
         }
 
-        console.log(traversalResult.join(', '));
+        console.log('Level order: ' + traversalResult.join(', '));
     }
 
-    // Define a callback function to accumulate the node value with level order
-    accumValueCallbackIter(result, value) {
+    // define a callback function to accumulate the node value with breadth-first level order
+    breadthCallbackIter(result, value) {
+        result.push(value);
+    }
+
+    // traverse the BST in depth-first inorder
+    inOrderForEach(callback) {
+        // Check if the callback is provided and is a function
+        if (typeof callback !== 'function') {
+            throw new Error('Callback function is required.');
+        }
+
+        let traversalResult = [];
+        this.inOrderForEachRecur(callback, this.root, traversalResult);
+
+        console.log('Inorder: ' + traversalResult.join(', '));
+    }
+    
+    // recursive function to traverse the BST in depth-first inorder
+    inOrderForEachRecur(callback, root, result) {
+        if(root === null) {
+            return;
+        }
+
+        this.inOrderForEachRecur(callback, root.leftChild, result);
+        callback(result, root.value);
+        this.inOrderForEachRecur(callback, root.rightChild, result);
+    }
+
+    // recursive function to traverse the BST in depth-first preorder
+    preOrderForEach(callback) {
+        // Check if the callback is provided and is a function
+        if (typeof callback !== 'function') {
+            throw new Error('Callback function is required.');
+        }
+
+        let traversalResult = [];
+        this.preOrderForEachRecur(callback, this.root, traversalResult);
+
+        console.log('Preorder: ' + traversalResult.join(', '));
+    }
+
+    // traverse the BST in depth-first preorder
+    preOrderForEachRecur(callback, root, result) {
+        if(root === null) {
+            return
+        }
+
+        callback(result, root.value);
+        this.preOrderForEachRecur(callback, root.leftChild, result);
+        this.preOrderForEachRecur(callback, root.rightChild, result);
+    }
+
+    // traverse the BST in depth-first postorder
+    postOrderForEach(callback) {
+        // Check if the callback is provided and is a function
+        if (typeof callback !== 'function') {
+            throw new Error('Callback function is required.');
+        }
+
+        let traversalResult = [];
+        this.postOrderForEachRecur(callback, this.root, traversalResult);
+
+        console.log('Postorder: ' + traversalResult.join(', '));
+    }
+
+    // recursive function to traverse the BST in depth-first postorder
+    postOrderForEachRecur(callback, root, result) {
+        if(root === null) {
+            return
+        }
+
+        this.postOrderForEachRecur(callback, root.leftChild, result);
+        this.postOrderForEachRecur(callback, root.rightChild, result);
+        callback(result, root.value);
+    }
+
+    // define a callback function to accumulate the node value with depth-first order
+    depthCallback(result, value) {
         result.push(value);
     }
     

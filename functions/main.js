@@ -37,7 +37,7 @@ console.log(BSTExample.find(3));
 
 // test function levelOrderForEach()
 try {
-    BSTExample.levelOrderForEach(BSTExample.accumValueCallbackRecur);
+    BSTExample.levelOrderForEach(BSTExample.breadthCallbackRecur);
 } catch (error) {
     console.error('Caught an error:', error.message);
 }
@@ -53,7 +53,7 @@ try {
 
 // test function levelOrderForEachIter()
 try {
-    BSTExample.levelOrderForEachIter(BSTExample.accumValueCallbackIter);
+    BSTExample.levelOrderForEachIter(BSTExample.breadthCallbackIter);
 } catch (error) {
     console.error('Caught an error:', error.message);
 }
