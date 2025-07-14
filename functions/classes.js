@@ -83,8 +83,7 @@ class Tree {
         if(value === root.value) {
 
             // Case when root has 0 children
-            if(root.rightChild === null && root.leftChild) {
-                console.log("Delete a non-existed value into BST");
+            if(root.rightChild === null && root.leftChild === null) {
                 return null;
             }
 
