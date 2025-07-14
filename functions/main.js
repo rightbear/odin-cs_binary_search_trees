@@ -26,4 +26,3 @@ BSTExample.prettyPrint(BSTExample.root);
 // test function delete() with value having 2 child
 BSTExample.deleteItem(67);
 BSTExample.prettyPrint(BSTExample.root);
-    

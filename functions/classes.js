@@ -35,54 +35,54 @@ class Tree {
 
      // insert the given value into BST
     insert(value) {
-        this.root = this.insertToBST(this.root, value);
+        this.root = this.insertToBSTRecur(this.root, value);
     }
 
     // Recursive function to insert the value into BST
-    insertToBST(root, value) {
+    insertToBSTRecur(root, value) {
         if(root === null) {
             return new Node(value);
         }
         
         // if root matches with the given key
         if(value === root.value) {
-            console.log("Insert a duplicate value into BST");
+            console.log("Cannot insert a duplicate value into BST");
         }
 
         // if root doesn't match with the given key
         if(value < root.value){
-            root.leftChild = this.insertToBST(root.leftChild, value);
+            root.leftChild = this.insertToBSTRecur(root.leftChild, value);
         }
         else if(value > root.value){
-            root.rightChild = this.insertToBST(root.rightChild, value);
+            root.rightChild = this.insertToBSTRecur(root.rightChild, value);
         }
         return root;
     }
 
     // delete the given value from BST
     deleteItem(value) {
-        this.root = this.deleteItemFromBST(this.root, value);
+        this.root = this.deleteItemFromBSTRecur(this.root, value);
     }
 
     // Recursive function to delete the value from BST
-    deleteItemFromBST(root, value) {
+    deleteItemFromBSTRecur(root, value) {
         if(root === null){
-            console.log("Delete a non-existed value into BST");
+            console.log("Cannot delete a non-existed value from BST");
             return root;
         }
 
         // if root doesn't match with the given key
         if(value < root.value) {
-            root.leftChild = this.deleteItemFromBST(root.leftChild, value);
+            root.leftChild = this.deleteItemFromBSTRecur(root.leftChild, value);
         }
         else if(value > root.value){
-            root.rightChild = this.deleteItemFromBST(root.rightChild, value);
+            root.rightChild = this.deleteItemFromBSTRecur(root.rightChild, value);
         }
         
         // if root matches with the given key
         if(value === root.value) {
 
-            // Case when root has 0 children
+            // Case when root has 0 children (the root is a leaf node)
             if(root.rightChild === null && root.leftChild === null) {
                 return null;
             }
@@ -100,7 +100,7 @@ class Tree {
             // Cases when both children are present
             let successor = this.getSuccessor(root);
             root.value = successor.value;
-            root.rightChild = this.deleteItemFromBST(root.rightChild, successor.value);
+            root.rightChild = this.deleteItemFromBSTRecur(root.rightChild, successor.value);
         }
 
         return root;
@@ -114,6 +114,106 @@ class Tree {
             current = current.leftChild;
         }
         return current;
+    }
+
+    // Iterative function to return the node with the given value
+    find(value) {
+        if(this.root === null) {
+            console.log("Cannot find a non-existed value in BST");
+            return null;
+        }
+
+        let current = this.root;
+        while(current != null) {
+            if(value < current.value) {
+                current = current.leftChild;
+            }
+            else if(value > current.value) {
+                current = current.rightChild;
+            }
+            else {
+                return current;
+            }
+        }
+
+        console.log("Cannot find a non-existed value in BST");
+        return null;
+    }
+
+    // Traverse the BST in breadth-first level order and call the callback on each node as it traverse
+    levelOrderForEach(callback) {
+        // Check if the callback is provided and is a function
+        if (typeof callback !== 'function') {
+            throw new Error('Callback function is required.');
+        }
+
+        let traversalResult = [];
+
+        // start with the root at level 0
+        // for each visited node, its value is added to the result array, by considering the value of current level as an index in the result array
+        this.levelOrderForEachRecur(callback, this.root, 0, traversalResult);
+
+        // the final form of traversalResult will be an array with many sub-array, needed to be flattened
+        const flattenedResult = traversalResult.flat();
+        console.log(flattenedResult.join(', '));
+    }
+
+    // Recursive function to traverse the BST in breadth-first level order
+    levelOrderForEachRecur(callback, root, currentLevel, result) {
+        if(root === null){
+            return null;
+        }
+
+        // Add a new level to the result if needed
+        if (result.length <= currentLevel){
+            result.push([])
+        }
+
+        // Add current node's data to its corresponding level
+        callback(result, currentLevel, root.value);
+
+        this.levelOrderForEachRecur(callback, root.leftChild, currentLevel + 1, result);
+        this.levelOrderForEachRecur(callback, root.rightChild, currentLevel + 1, result);
+    }
+
+    // Define a callback function to accumulate the node value with level order
+    accumValueCallbackRecur(result, level, value) {
+        result[level].push(value);
+    }
+
+    // Iterative function to traverse the BST in breadth-first level order with quene
+    levelOrderForEachIter(callback) {
+        // Check if the callback is provided and is a function
+        if (typeof callback !== 'function') {
+            throw new Error('Callback function is required.');
+        }
+
+        if(this.root === null){
+            return null;
+        }
+
+        let traversalResult = [];
+        const quene = [this.root];
+
+        while(quene.length > 0) {
+            const current = quene.shift();
+            callback(traversalResult, current.value);
+
+            if(current.leftChild != null) {
+                quene.push(current.leftChild);
+            }
+
+            if(current.rightChild != null) {
+                quene.push(current.rightChild);
+            }
+        }
+
+        console.log(traversalResult.join(', '));
+    }
+
+    // Define a callback function to accumulate the node value with level order
+    accumValueCallbackIter(result, value) {
+        result.push(value);
     }
     
     // visualize the binary search tree with root of the tree as the value for the node parameter
